@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document Upload & Download</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: rgb(192, 211, 238);
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 25px 0;
+    }
+
+    input[type="file"],
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .result {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Upload File</h2>
+    <form id="uploadForm">
+      <input type="file" name="file" required />
+      <button type="submit">Upload</button>
+    </form>
+    <div id="uploadResult" class="result"></div>
+
+    <hr />
+
+    <h2>Download File</h2>
+    <form id="downloadForm">
+      <input type="text" id="fileNumber" placeholder="Enter File Number" required />
+      <button type="submit">Get File</button>
+    </form>
+    <div id="downloadResult" class="result"></div>
+  </div>
+
+  <script>
+    // Upload form
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const res = await fetch("/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      document.getElementById("uploadResult").innerHTML =
+        res.ok
+          ? `✅ Upload successful!<br>File Number: <b>${data.file_number}</b>`
+          : `❌ Error: ${data.error}`;
+    });
+
+    // Download form
+    document.getElementById("downloadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fileNumber = document.getElementById("fileNumber").value;
+      const res = await fetch(`/download/${fileNumber}`);
+      const data = await res.json();
+      document.getElementById("downloadResult").innerHTML =
+        res.ok && data.download_url
+          ? `✅ File ready: <a href="${data.download_url}" target="_blank">Click here to download</a>`
+          : `❌ Error: ${data.error || "File not found"}`;
+    });
+  </script>
+</body>
+</html>

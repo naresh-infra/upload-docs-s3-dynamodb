@@ -1,0 +1,94 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIR Upload</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: #fff;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff7e5f;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #feb47b;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 1.2em;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+            padding: 15px 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload FIR Document</h1>
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()">Upload</button>
+
+    <div class="message" id="message"></div>
+
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById("fileInput");
+            const messageDiv = document.getElementById("message");
+
+            if (fileInput.files.length === 0) {
+                messageDiv.innerText = "Please select a file to upload.";
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("file", file);
+
+            try {
+                const response = await fetch("/upload", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageDiv.innerHTML = `✅ Upload successful!<br>FIR Number: <strong>${data.file_number}</strong>`;
+                } else {
+                    messageDiv.innerText = `❌ Error: ${data.error}`;
+                }
+            } catch (err) {
+                messageDiv.innerText = `❌ Error: ${err}`;
+            }
+        }
+    </script>
+</body>
+</html> -->
