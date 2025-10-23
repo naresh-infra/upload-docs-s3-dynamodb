@@ -79,10 +79,18 @@
 <body>
   <div class="container">
     <h2>Upload File</h2>
-    <form id="uploadForm">
+    <!-- <form id="uploadForm">
       <input type="file" name="file" required />
       <button type="submit">Upload</button>
+    </form> -->
+    <form id="uploadForm">
+      <input type="file" name="file" required />
+      <input type="text" name="description" placeholder="Enter description" />
+      <button type="submit">Upload</button>
     </form>
+
+<div id="uploadResult" class="result"></div>
+
     <div id="uploadResult" class="result"></div>
 
     <hr />
